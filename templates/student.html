@@ -1,0 +1,36 @@
+
+    <h1>TamrinHa</h1>
+
+    <table>
+      <thead>
+        <th>Matn</th>
+        <th>Time</th>
+        <th>Nomre</th>
+        <th>Javab</th>
+      </thead>
+      {% for tamrin in tamrinha  %}
+        <tr>
+          <td>{{tamrin.0.matn}}</td>
+          <td>{{tamrin.0.time}}</td>
+          <td>{% if homework.1 %}
+            {{tamrin.1.nomre}}
+             {% else %}
+              -
+              {% endif %}</td>
+          <td>
+            <a href="{% url 'panel:upload' pk=tamrin.0.id %}">Ersal</a>
+              </td>
+        </tr>
+      {% endfor %}
+    </table>
+
+    <br>
+    <br>
+    <br>
+
+    <h1>FilmHa</h1>
+
+    {% for film in Filmha  %}
+
+      <br>
+    {% endfor %}

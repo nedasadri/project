@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <link href="{% static "css/doctor.css" %}" rel="stylesheet">
+    <title>نوبت دهی آنلاین مطب آقای دکتر {{doctor.name}}-متخصص مغز و اعصاب(نورولوژی) در تهران</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+
+
+<body>
+
+
+  <header class="l-header">
+      <nav class="nav nav-grid">
+          <div class="nav__logo">
+              <a href="#"> <img alt="" src="{% static "assets/img/nav_icon_svgs/cd3eac7.svg" %}">
+              </a>
+              <i class='bx bx-menu nav__toggle' id="nav-toggle">
+              </i>
+          </div>
+          <div class="nav__menu" id="nav-menu">
+              <ul class="nav___list">
+
+
+
+
+                  <li class="nav__item">
+                      <a class="nav__link" href="{% url 'main:index' %}">
+                          <div class="nav__item__logo">
+                              <img alt=""
+                                   src="../../assets/img/nav_icon_svgs/member.svg"/>
+                          </div>
+                        خانه
+                      </a>
+                  </li>
+
+              </ul>
+
+          </div>
+
+
+      </nav>
+  </header>
+
+
+
+<!-- Main body content -->
+<div>
+    <!-- Main content (doctor details) outer container -->
+    <div class="pb-md-5 container">
+        <!-- Page location nav row -->
+        <nav aria-label="breadcrumb" id="navBar" class="position-relative dr-breadcrumb w-100 d-block">
+
+        </nav>
+
+        <!-- Doctor details container -->
+        <div class="row">
+
+            <!-- Sidebar -->
+            <div class="pr-md-0 px-0 pl-md-4 col-md-4 col-12" id="sideBar">
+
+            </div>
+
+            <!-- Main doctor details -->
+            <div class="px-0 mb-md-4 col-md-8 col-12">
+
+                <!-- Time calender -->
+
+
+
+
+
+                <!-- Single comment -->
+                <div class="row dr-card py-md-3 mb-3" >
+                  <p>نام : {{doctor.name}}</p>
+                </div>
+
+                <div class="row dr-card py-md-3 mb-3" >
+                  <p>تخصص : {{doctor.get_spec_display}}</p>
+                </div>
+
+                <div class="row dr-card py-md-3 mb-3" >
+                  <p>شماره نظام پزشکی : {{doctor.number}}</p>
+                </div>
+
+                <div class="row dr-card py-md-3 mb-3" >
+                  <p>امکان پرداخت انلاین : {% if doctor.online_pay %}دارد{% else %}ندارد{% endif %}</p>
+                </div>
+
+                <div class="row dr-card py-md-3 mb-3" >
+                  <p>میزان تجربه : {{doctor.experience_years}} سال</p>
+                </div>
+
+                <div class="row dr-card py-md-3 mb-3" >
+                  <p>شماره تماس : {{doctor.user.phone}}</p>
+                </div>
+
+                <div class="row dr-card py-md-3 mb-3" >
+                  <p>آدرس : {{doctor.address}}</p>
+                </div>
+
+                <div class="row dr-card py-md-3 mb-3" >
+                  <p>روز های مراجعه :
+                    {% if doctor.day0 %}شنبه  {% endif %}
+                    {% if doctor.day1 %}یکشنبه  {% endif %}
+                    {% if doctor.day2 %}دوشنبه  {% endif %}
+                    {% if doctor.day3 %}سه شنبه  {% endif %}
+                    {% if doctor.day4 %}چهار شنبه  {% endif %}
+                    {% if doctor.day5 %}پنجشنبه  {% endif %}
+                    {% if doctor.day6 %}جمعه  {% endif %}
+                  </p>
+                </div>
+
+
+
+                <!-- All comments -->
+                <div class="rounded-10 border p-0" id="comments">
+                    <div class="border-bottom rounded-top-10 d-flex justify-content-between p-2 bg-light-gray">
+                        <div class="row align-self-center">
+                            <svg class="text-slate" fill="none" height="24px"
+                                 stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                 stroke-width="2" viewBox="0 0 24 24" width="24px"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z">
+                                </path>
+                            </svg>
+                            <div class="pr-3">
+                                <h3
+                                        class="mb-0 w-100 d-block text-16 font-weight-bold text-slate">
+                                                                  نظرات کاربران (تعداد کل نظرات :{{doctor.comments.count}})                                </h3>
+                                <p class="m-0 text-12 mt-2 w-100">
+                                    در این قسمت شما می توانید تجربه مراجعه کاربران دیگر به مطب آقای
+                                    دکتر {{doctor.name}} را بخوانید.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="w-100 p-3 bg-white rounded-10">
+                        <div>
+
+
+                            <div class="vue-ads-flex vue-ads-m-2 vue-ads-px-0 vue-ads-text-xs d-block m-md-0 mb-4">
+                                <div class="vue-ads-pr-2 mb-3 vue-ads-leading-loose w-100 p-0">
+
+                                  {% for comment in doctor.comments.all  %}
+                                    <div class="rounded-10 border p-0 mb-3 text-right">
+                                        <div class="border-bottom rounded-top-10 d-flex justify-content-between p-2 bg-light-gray">
+                                            <div class="row align-self-center">
+                                                <svg class="text-slate" fill="none"
+                                                     height="24px" stroke="currentColor" stroke-linecap="round"
+                                                     stroke-linejoin="round" stroke-width="2"
+                                                     viewBox="0 0 24 24" width="24px"
+                                                     xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2">
+                                                    </path>
+                                                    <circle cx="12" cy="7" r="4">
+                                                    </circle>
+                                                </svg>
+                                                <div class="pr-3">
+                                                    <h3
+                                                            class="mb-0 w-100 d-block  text-steel text-12 mt-1">
+                                                        {{comment.user.username}}
+                                                    </h3>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="bg-white pb-1 pt-2 row rounded-bottom-10">
+                                            <div class="text-14 py-1 col-md-5 col-12">
+                                              <div class="w-100 d-flex h-auto pb-1 text-slate text-14">
+                                                  <span class="w-50 text-slate font-weight-bold">امتیاز به پزشک</span>
+                                                  {{comment.score}}
+                                              </div>
+
+                                                <div class="w-100 pb-1 d-flex h-auto text-slate text-14">
+                                                    <span class="text-slate font-weight-bold w-50">موضوع</span>
+                                                    <span class="w-50 pr-1">{{comment.title}}</span>
+                                                </div>
+
+                                            </div>
+                                            <div class="py-1 col-md-7 col-12 border-right-dash">
+                                                <p
+                                                        class="text-14 text-slate line-height-30 p-2">
+                                                        {{comment.text}}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                  {% endfor %}
+
+
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row dr-card py-md-3 mb-3" >
+                  نظر جدید
+                  <br> <br>
+                  <input type="text" id="title1" placeholder="موضوع" class="" value=""> <br><br>
+                  <input type="number" id="score" placeholder="امتیاز از یک تا پنج" class="" value=""> <br><br>
+                  <input type="text" id="text" placeholder="متن" class="" value=""> <br><br>
+
+                  <button type="button" onclick="add_comment();" name="button">ثبت نظر</button>
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+</div>
+
+<!-- Page footer -->
+<footer class="footer">
+    <article class="footer__head">
+        <a href="#"> <img alt="" src="{% static "assets/img/footer__logo.svg" %}">
+        </a>
+        <p> درمانکده، ارائه دهنده خدمات آنلاین سلامت
+            <br>(نوبت گیری اینترنتی، مشاوره آنلاین، آزمایش در محل و ...)
+        </p>
+
+    </article>
+    <article class="about">
+        <div>
+            <ul>
+                <li>درباره درمانکده</li>
+                <li> تماس با ما</li>
+                <li> مجله پزشکی</li>
+            </ul>
+        </div>
+
+        <div>
+            <ul>
+                <li>سوالات متداول</li>
+                <li> قوانین و مقررات</li>
+                <li> شکایت</li>
+            </ul>
+        </div>
+    </article>
+    <article class="social__network">
+        <div class="pics">
+            <img alt="" src="{% static "assets/img/skill_Page/1-footer.png" %}">
+            <img alt="" src="{% static "assets/img/skill_Page/2-footer.png" %}">
+        </div>
+        <div class="social__network__icons">
+            <img alt="" src="{% static "assets/img/instagram.svg" %}">
+            <img alt="" src="{% static "assets/img/twitter.svg" %}">
+            <img alt="" src="{% static "assets/img/linkedin .svg" %}">
+        </div>
+
+    </article>
+</footer>
+
+    <script src="../../js/doctorPage.js"></script>
+    <script src="../../js/handleTabs.js"></script>
+    <script src="{% static "assets/js/jquery.min.js" %}"></script>
+    <script type="text/javascript">
+
+function add_comment(){
+        title = document.getElementById("title1");
+        text = document.getElementById("text");
+        score = document.getElementById("score")
+
+        $.ajax({
+                       type:"GET",
+                       url:'{% url "main:add_comment" %}',
+                        data: {
+                        'title':title.value,
+                        'text': text.value,
+                        'score': score.value,
+                        'doctor': {{doctor.id}},
+                           },
+                       dataType: 'json',
+                       success: function (data) {
+                         if (data.success) {
+                           window.location.reload();
+
+                         }
+
+                       }
+         });
+       }
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,19 @@
+
+    <h1>TamrinHa</h1>
+    {% for tamrin in tamrinha  %}
+      <a href="#">
+        <h4>Matn: {{tamrin.matn}} ------Time: {{tamrin.time}}</h4>
+      </a>
+    {% endfor %}
+
+    <form method="POST">
+      <input type="text" placeholder="Matn" name="matn">
+      <input type="text" placeholder="Time" name="time">
+      <input type="submit" value="sabt tamrin">
+      {% csrf_token %}
+    </form>
+
+    <br>
+    <br>
+    <br>
+    

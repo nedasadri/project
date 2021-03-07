@@ -39,3 +39,25 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.username
+
+
+class Film(models.Model):
+    film = models.FileField(upload_to='films')
+
+
+class Tamrin(models.Model):
+    matn = models.TextField()
+    time = models.CharField(max_length = 250)
+
+    def __str__(self):
+        return self.text
+
+class Ersal(models.Model):
+    student = models.ForeignKey(MyUser, on_delete = models.PROTECT, related_name = 'ersalha')
+    Tamrin = models.ForeignKey(Tamrin, on_delete = models.PROTECT, related_name = 'ersalha')
+    file = models.FileField(upload_to = 'uploads')
+    nomre = models.PositiveIntegerField(default = None, null = True, blank = True)
+    time = models.DateField(default = timezone.now)
+
+    def __str__(self):
+        return self.time

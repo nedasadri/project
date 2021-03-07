@@ -13,3 +13,6 @@ class MyUserAdmin(UserAdmin):
     filter_horizontal = ()
 
 admin.site.register(models.MyUser, MyUserAdmin)
+admin.site.register(models.Tamrin)
+admin.site.register(models.Film)
+admin.site.register(models.Ersal)

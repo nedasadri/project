@@ -120,3 +120,5 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 AUTH_USER_MODEL = 'main.MyUser'
+MEDIA_ROOT = './media'
+MEDIA_URL = '/media/'

@@ -18,7 +18,7 @@
               -
               {% endif %}</td>
           <td>
-            <a href="{% url 'panel:upload' pk=tamrin.0.id %}">Ersal</a>
+            <a href="#">Ersal</a>
               </td>
         </tr>
       {% endfor %}
@@ -30,7 +30,8 @@
 
     <h1>FilmHa</h1>
 
-    {% for film in Filmha  %}
-
+    {% for film in filmha  %}
+        <a href="{% url 'main:nemayesh' pk=film.id %}">{{film}}</a>
+      <br>
       <br>
     {% endfor %}
